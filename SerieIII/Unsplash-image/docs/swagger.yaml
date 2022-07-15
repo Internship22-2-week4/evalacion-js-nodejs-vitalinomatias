@@ -1,0 +1,243 @@
+openapi: 3.0.0
+info:
+  title: Unsplash-image
+  description: 'Es una plataforma para guardar fotografias '
+  contact:
+    email: suport@suport.com
+  license:
+    name: Apache 2.0
+    url: http://apache.org
+  version: 1.0.0
+servers:
+- url: http://localhost:4000/api/v1
+tags:
+- name: Photo
+  description: fotos de los usuarios
+- name: Collection
+  description: Coleccion de fotos del usuario
+- name: User
+  description: Creacion de usuarios
+- name: Auth
+  description: Autenticacion de los usuarios a la plataforma
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Photo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        uri:
+          type: string
+        etiqueta: 
+          type: string
+        idColeccion:
+          type: integer
+          format: int32
+        status:
+          type: integer
+          format: int32
+    Collection:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        idUser:
+          type: integer
+          format: int32
+        status:
+          type: integer
+          format: int32
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        password: 
+          type: string
+        status:
+          type: integer
+          format: int33
+    Auth:
+      type: object
+      properties:
+        email:
+          type: string
+        password: 
+          type: string
+paths:
+  /photo:
+    post:
+      tags:
+      - Photo
+      summary: Creacion de una fotografia
+      operantionId: createPhoto
+      description: Se creara una fotografia nueva
+      requestBody:
+        description: Ingresar los datos de la fotografia
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+        required: true
+      responses:
+        200:
+          description: registro exitoso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+    get:
+      tags:
+      - Photo
+      summary: lista todas las fotografias registradas
+      responses:
+        200:
+          description: todas las fotografias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Photo'
+    put:
+      tags:
+      - Photo
+      summary: actualiza una fotografia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+        required: true
+      responses:
+        200:
+          description: Fotografia actualizada
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+    delete:
+      tags:
+      - Photo
+      summary: desactiva el estado de una fotografia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+        required: true
+      responses:
+        200:
+          description: Fotografia eliminada
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /collection:
+    post:
+      tags:
+      - Collection
+      summary: Creacion de una collecion del usuario
+      operantionId: createCollection
+      description: Se creara una nueva coleccion
+      requestBody:
+        description: Ingresar los datos de la coleccion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Collection'
+        required: true
+      responses:
+        200:
+          description: registro exitoso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /user/signup:
+    post:
+      tags:
+      - User
+      summary: Crear un nuevo usuario
+      operantionId: createUser
+      description: Se creara un nueuvo usuario
+      requestBody:
+        description: Ingresar los datos del usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        200:
+          description: registro exitoso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /auth/singin:
+    post:
+      tags:
+      - Auth
+      summary: Autentica un usuario
+      operantionId: AuthUser
+      description: Se autentica un usuario
+      requestBody:
+        description: Ingresar los datos de autenticacion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth'
+        required: true
+      responses:
+        200:
+          description: registro exitoso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+        400:
+          description: bad request
+          content: {}
+        404:
+          description: not found
+          content: {}
+    
